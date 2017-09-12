@@ -33,12 +33,13 @@ button {
   cursor: pointer;
   width: 70px;
   height: 70px;
+  outline: none;
 }
 
 .operations {
   background-color: #F98D11;
 }
 
-.grey {
+.functions {
   background-color: #aaa;
 }

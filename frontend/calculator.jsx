@@ -14,21 +14,44 @@ class Calculator extends React.Component {
 
     this.addDigit = this.addDigit.bind(this);
     this.clearDisplay = this.clearDisplay.bind(this);
+    this.addDot = this.addDot.bind(this);
+    this.toggleSign = this.toggleSign.bind(this);
+    this.calculatePercent = this.calculatePercent.bind(this);
     this.addOperationAddition = this.addOperationAddition.bind(this);
     this.calculateResult = this.calculateResult.bind(this);
   }
 
-  calculateResult(e) {
+  calculateResult() {
     const operand1 = this.state.operand1;
-    const operand2 = parseInt(this.state.display);
+    const operand2 = parseFloat(this.state.display);
     const display = (operand2 != null) ? operand1 + operand2 : operand1;
     this.setState({ display, operand1: display, operand2: null, operation: null });
   }
 
-  addOperationAddition(e) {
-    e.preventDefault(e);
-    const operand1 = parseInt(this.state.display);
+  addOperationAddition() {
+    const operand1 = parseFloat(this.state.display);
     this.setState({ operand1, operation: "+", waitingForOperand: true });
+  }
+
+  calculatePercent() {
+    const { display } = this.state;
+    this.setState({ display: parseFloat(parseFloat(display) / 100)});
+  }
+
+  addDot() {
+    const { display } = this.state;
+    if(display.indexOf(".") === -1) {
+      this.setState({ display: display + "."});
+    }
+  }
+
+  toggleSign() {
+    const { display } = this.state;
+    if(parseFloat(display) > 0) {
+      this.setState({ display: "-"+display });
+    } else if (parseFloat(display) < 0){
+      this.setState({ display: display.substr(1) });
+    }
   }
 
   addDigit(e) {
@@ -62,9 +85,9 @@ class Calculator extends React.Component {
         </div>
 
         <div className="calc-row">
-          <button className="grey" onClick={this.clearDisplay}>C</button>
-          <button className="grey" onClick={this.addDigit}>+/-</button>
-          <button className="grey" onClick={this.addDigit}>%</button>
+          <button className="functions" onClick={this.clearDisplay}>C</button>
+          <button className="functions" onClick={this.toggleSign}>+/-</button>
+          <button className="functions" onClick={this.calculatePercent}>%</button>
           <button className="operations" onClick={this.addDigit}>/</button>
         </div>
 
@@ -92,7 +115,7 @@ class Calculator extends React.Component {
         <div className="calc-row">
           <button className="" onClick={this.addDigit}>0</button>
           <button className="" onClick={this.addDigit}></button>
-          <button className="" onClick={this.addDigit}>.</button>
+          <button className="" onClick={this.addDot}>.</button>
           <button className="operations" onClick={this.calculateResult}>=</button>
         </div>
 
