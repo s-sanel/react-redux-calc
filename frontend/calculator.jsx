@@ -7,6 +7,22 @@ class Calculator extends React.Component {
     this.state = {
       display: "0",
     }
+
+    this.addDigit = this.addDigit.bind(this);
+    this.clearDisplay = this.clearDisplay.bind(this);
+  }
+
+  addDigit(e) {
+    e.preventDefault();
+    const value = e.target.innerHTML;      
+    console.log(value);
+    const display = (this.state.display === "0") ? value : this.state.display += value;
+    this.setState({display});
+  }
+
+  clearDisplay(e) {
+    e.preventDefault();
+    this.setState({ display: "0" });
   }
 
   render() {
@@ -18,38 +34,38 @@ class Calculator extends React.Component {
         </div>
 
         <div className="calc-row">
-          <button className="">C</button>
-          <button className="">+/-</button>
-          <button className="">%</button>
-          <button className="">/</button>
+          <button className="" onClick={this.clearDisplay}>C</button>
+          <button className="" onClick={this.addDigit}>+/-</button>
+          <button className="" onClick={this.addDigit}>%</button>
+          <button className="" onClick={this.addDigit}>/</button>
         </div>
 
         <div className="calc-row">
-          <button className="">7</button>
-          <button className="">8</button>
-          <button className="">9</button>
-          <button className="">*</button>
+          <button className="" onClick={this.addDigit}>7</button>
+          <button className="" onClick={this.addDigit}>8</button>
+          <button className="" onClick={this.addDigit}>9</button>
+          <button className="" onClick={this.addDigit}>*</button>
         </div>
 
         <div className="calc-row">
-          <button className="">4</button>
-          <button className="">5</button>
-          <button className="">6</button>
-          <button className="">-</button>
+          <button className="" onClick={this.addDigit}>4</button>
+          <button className="" onClick={this.addDigit}>5</button>
+          <button className="" onClick={this.addDigit}>6</button>
+          <button className="" onClick={this.addDigit}>-</button>
         </div>
 
         <div className="calc-row">
-          <button className="">1</button>
-          <button className="">2</button>
-          <button className="">3</button>
-          <button className="">+</button>
+          <button className="" onClick={this.addDigit}>1</button>
+          <button className="" onClick={this.addDigit}>2</button>
+          <button className="" onClick={this.addDigit}>3</button>
+          <button className="" onClick={this.addDigit}>+</button>
         </div>
 
         <div className="calc-row">
-          <button className="">0</button>
-          <button className=""></button>
-          <button className="">.</button>
-          <button className="">=</button>
+          <button className="" onClick={this.addDigit}>0</button>
+          <button className="" onClick={this.addDigit}></button>
+          <button className="" onClick={this.addDigit}>.</button>
+          <button className="" onClick={this.addDigit}>=</button>
         </div>
 
       </div>
