@@ -43,3 +43,8 @@ button {
 .functions {
   background-color: #aaa;
 }
+
+pre {
+  background-color: white;
+  color: black;
+}
