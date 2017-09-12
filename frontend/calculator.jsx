@@ -18,19 +18,36 @@ class Calculator extends React.Component {
     this.toggleSign = this.toggleSign.bind(this);
     this.calculatePercent = this.calculatePercent.bind(this);
     this.addOperationAddition = this.addOperationAddition.bind(this);
+    this.addOperationSubtraction = this.addOperationSubtraction.bind(this);
     this.calculateResult = this.calculateResult.bind(this);
   }
 
   calculateResult() {
+    const operations = {
+      "+" : (operand1, operand2) => parseFloat(operand1) + parseFloat(operand2),
+      "-" : (operand1, operand2) => parseFloat(operand1) - parseFloat(operand2)
+    }
+
     const operand1 = this.state.operand1;
-    const operand2 = parseFloat(this.state.display);
-    const display = (operand2 != null) ? operand1 + operand2 : operand1;
-    this.setState({ display, operand1: display, operand2: null, operation: null });
+    let operand2 = this.state.operand2;
+    if(this.state.waitingForOperand) {
+      operand2 = (this.state.operand2 === null)? operand1 : this.state.operand2;
+    } else {
+      operand2 = this.state.operand2;
+    }
+    const display = operations[this.state.operation](operand1, operand2);
+    this.setState({ display, operand1: display, operand2 });
   }
 
   addOperationAddition() {
-    const operand1 = parseFloat(this.state.display);
-    this.setState({ operand1, operation: "+", waitingForOperand: true });
+    const operand1 = (this.state.operand1===null)? parseFloat(this.state.display) : this.state.operand1;
+    const operand2 = operand1;
+    this.setState({ operand1, operand2, operation: "+", waitingForOperand: true });
+  }
+  addOperationSubtraction() {
+    const operand1 = (this.state.operand1===null)? parseFloat(this.state.display) : this.state.operand1;
+    const operand2 = operand1;
+    this.setState({ operand1, operand2, operation: "-", waitingForOperand: true });
   }
 
   calculatePercent() {
@@ -46,11 +63,15 @@ class Calculator extends React.Component {
   }
 
   toggleSign() {
-    const { display } = this.state;
+    const { display, operand1 } = this.state;
+    let operand1Val = null;
+    if (operand1 !== null){
+        operand1Val = parseFloat(-operand1);
+    }
     if(parseFloat(display) > 0) {
-      this.setState({ display: "-"+display });
+      this.setState({ display: "-"+display, operand1: operand1Val});
     } else if (parseFloat(display) < 0){
-      this.setState({ display: display.substr(1) });
+      this.setState({ display: display.substr(1), operand1: operand1Val });
     }
   }
 
@@ -71,9 +92,7 @@ class Calculator extends React.Component {
   }
 
   clearDisplay(e) {
-    this.setState({ display: "0", operand1: null,
-                    operand2: null, operation: null,
-                    waitingForOperand: false, });
+    this.setState({ display: "0", operand1: null, operand2: null, operation: null, waitingForOperand: false, });
   }
 
   render() {
@@ -102,7 +121,7 @@ class Calculator extends React.Component {
           <button className="" onClick={this.addDigit}>4</button>
           <button className="" onClick={this.addDigit}>5</button>
           <button className="" onClick={this.addDigit}>6</button>
-          <button className="operations" onClick={this.addDigit}>-</button>
+          <button className="operations" onClick={this.addOperationSubtraction}>-</button>
         </div>
 
         <div className="calc-row">
