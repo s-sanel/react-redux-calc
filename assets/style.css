@@ -1,0 +1,36 @@
+body {
+  color: white;
+}
+
+.calc-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px auto;
+  width: 280px;
+  padding: 10px;
+  background-color: black;
+  padding: 2px;
+}
+
+.calc-display {
+  height: 100px;
+  background-color: black;
+  text-align: right;
+  vertical-align: text-bottom;
+  line-height: 120px;
+  font-size: 50px;
+  padding-right: 10px;
+}
+
+.calc-row {
+  display: flex;
+  align-items:center;
+  justify-content: space-around;
+}
+
+button {
+  cursor: pointer;
+  width: 70px;
+  height: 70px;
+}
