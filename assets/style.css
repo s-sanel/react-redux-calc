@@ -34,3 +34,11 @@ button {
   width: 70px;
   height: 70px;
 }
+
+.operations {
+  background-color: #F98D11;
+}
+
+.grey {
+  background-color: #aaa;
+}
